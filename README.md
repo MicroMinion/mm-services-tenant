@@ -31,4 +31,52 @@ var kademlia = new TenantService({
 
 ### Published messages
 
+#### public.tenant.createReply
+
+Reply from remote host that new tenant is created
+
+```js
+var MicroMinionPlatform = require('mm-platform')
+
+var platform = new MicroMinionPlatform({})
+//publicKey is the publicKey of the remote host where we want to create a tenant on
+//secret is the secret from QR code of that same host
+//id is a unique identifier that is generated
+
+platform.messaging.send('tenant.create', publicKey, {secret: secret, id: id})
+
+platform.messaging.on('public.tenant.createReply', function(topic, sender, getReply) {
+  if(id === getReply.id) {
+    //publicKey of tentant that was created
+    console.log(getReply.publicKey)
+    platform.messaging.send('devices.add', 'local', getReply.publicKey)
+  }
+})
+```
+
 ### Subscribed messages
+
+#### public.tenant.create
+
+Create new tenant on remote host
+
+We assume that publicKey of remote host and secret is captured by scanning in QR code from physical host device
+
+```js
+var MicroMinionPlatform = require('mm-platform')
+
+var platform = new MicroMinionPlatform({})
+//publicKey is the publicKey of the remote host where we want to create a tenant on
+//secret is the secret from QR code of that same host
+//id is a unique identifier that is generated
+
+platform.messaging.send('tenant.create', publicKey, {secret: secret, id: id})
+
+platform.messaging.on('public.tenant.createReply', function(topic, sender, getReply) {
+  if(id === getReply.id) {
+    //publicKey of tentant that was created
+    console.log(getReply.publicKey)
+    platform.messaging.send('devices.add', 'local', getReply.publicKey)
+  }
+})
+```

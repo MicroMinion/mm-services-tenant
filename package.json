@@ -1,10 +1,11 @@
 {
   "name": "mm-services-tenant",
   "version": "0.0.1",
-  "description": "tenant service for the MicroMinion platform",
+  "description": "Tenant service for MicroMinion platform",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/*.unit.js",
+    "check-updates": "npm-check",
+    "test": "echo",
     "2npm": "publish"
   },
   "repository": {
@@ -31,8 +32,12 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "lodash": "^4.14.1",
-    "mocha": "^3.0.0",
-    "publish": "^0.6.0"
+    "mm-platform-stub": "0.0.1",
+    "mocha": "^3.0.1",
+    "publish": "^0.6.0",
+    "winston": "^2.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "mm-create-identity": "^1.1.0"
+  }
 }

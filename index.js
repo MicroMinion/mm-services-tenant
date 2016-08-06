@@ -19,14 +19,14 @@ var TenantService = function (options) {
   this._storage = options.storage
   this._platform = options.platform
   this._tenants = {}
-  this.platform.messaging.on('public.tenant.create', this._onCreate.bind(this))
+  this._platform.messaging.on('public.tenant.create', this._onCreate.bind(this))
   this._loadTenants()
   this._ready = false
 }
 
 TenantService.prototype._loadTenants = function () {
   var self = this
-  this.storage.get('tenants', function (err, result) {
+  this._storage.get('tenants', function (err, result) {
     if (!err) {
       var tenants = JSON.parse(result)
       _.forEach(tenants, function (tenant) {
@@ -47,7 +47,7 @@ TenantService.prototype._loadTenants = function () {
 }
 
 TenantService.prototype._saveTenants = function () {
-  this.storage.put('tenants', JSON.stringify(_.keys(this._tenants)))
+  this._storage.put('tenants', JSON.stringify(_.keys(this._tenants)))
 }
 
 TenantService.prototype._validMessage = function (data) {
@@ -82,7 +82,7 @@ TenantService.prototype._tenantExists = function (publicKey) {
 }
 
 TenantService.prototype._sendReply = function (destination, tenantKey, id) {
-  this.platform.messaging.send('tenant.createReply', destination, {
+  this._platform.messaging.send('tenant.createReply', destination, {
     id: id,
     publicKey: tenantKey
   })

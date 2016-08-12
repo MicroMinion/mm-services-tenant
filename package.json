@@ -1,6 +1,6 @@
 {
   "name": "mm-services-tenant",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tenant service for MicroMinion platform",
   "main": "index.js",
   "scripts": {
@@ -31,13 +31,14 @@
   "homepage": "https://github.com/thomasdelaet/mm-services-tenant#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "lodash": "^4.14.1",
-    "mm-platform-stub": "0.0.1",
+    "mm-platform-stub": "0.0.2",
     "mocha": "^3.0.1",
     "publish": "^0.6.0",
     "winston": "^2.2.0"
   },
   "dependencies": {
-    "mm-create-identity": "^1.1.0"
+    "mm-create-identity": "^1.2.1",
+    "lodash": "^4.14.2",
+    "node-uuid": "^1.4.7"
   }
 }

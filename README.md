@@ -1,6 +1,6 @@
 # mm-services-tenant
 
-Tenant service to create and manage TenantService
+Tenant service to create and manage tenants on a node
 
 works with [MicroMinion platform](https://github.com/MicroMinion/mm-platform)
 
@@ -11,23 +11,30 @@ works with [MicroMinion platform](https://github.com/MicroMinion/mm-platform)
 ```js
 var MicroMinionPlatform = require('mm-platform')
 var TenantService = require('mm-services-tenant')
-var kadfs = require('kad-fs')
-var path = require('path')
+var Runtime = require('mm-box')
+var uuid = require('node-uuid')
+var MemStore = require('kad-memstore')
 
-var storageDir = './data'
+var platform = new MicroMinionPlatform()
+var runtime = new Runtime()
+var runtimeClass = Runtime
+var secret = uuid.v4()
 
-var platform = new MicroMinionPlatform({
-  storage: kadfs(path.join(storageDir, 'platform'))
-})
-
-var kademlia = new TenantService({
+var tenantService = new TenantService({
   platform: platform,
+  runtime: runtime,
+  runtimeClass: runtimeClass,
+  secret: secret,
+  storage: new MemStore(),
+  logger: platform._log
 })
 ```
 
 ## Messaging API
 
 ### Data structures
+
+A tenant is identified by its public key. This service instantiates a runtime for each tenant.
 
 ### Published messages
 

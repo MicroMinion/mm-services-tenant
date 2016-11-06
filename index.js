@@ -4,6 +4,7 @@ var assert = require('assert')
 var _ = require('lodash')
 var identityHelpers = require('mm-create-identity')
 var uuid = require('node-uuid')
+var winstonWrapper = require('winston-meta-wrapper')
 
 var TenantService = function (options) {
   assert(_.isObject(options))
@@ -13,7 +14,10 @@ var TenantService = function (options) {
   assert(_.isObject(options.storage))
   assert(_.isString(options.secret))
   assert(_.isObject(options.logger))
-  this._log = options.logger
+  this._log = winstonWrapper(options.logger)
+  this._log.addMeta({
+    module: 'mm:services:tenant'
+  })
   this._secret = options.secret
   this._runtime = options.runtime
   this._runtimeClass = options.runtimeClass
@@ -34,6 +38,10 @@ TenantService.prototype._loadTenants = function () {
         var environment = {}
         if (self._runtime._hasPersistence()) {
           environment.PERSISTENCE = self._runtime.appendToPersistence(tenantName)
+        }
+        if (self._runtime.isDev()) {
+          environment.DEV = '1'
+          console.log('DEV ENVIRONMENT VARIABLE SET FOR NEW TENANT!!!')
         }
         var runtime = new self._runtimeClass(environment)
         runtime.createPlatform()
@@ -99,6 +107,10 @@ TenantService.prototype._createNewTenant = function (publicKey, id) {
   var tenantName = uuid.v4()
   if (this._runtime._hasPersistence()) {
     environment.PERSISTENCE = this._runtime.appendToPersistence(tenantName)
+  }
+  if (this._runtime.isDev()) {
+    environment.DEV = '1'
+    console.log('DEV ENVIRONMENT VARIABLE SET FOR NEW TENANT!!!')
   }
   var runtime = new this._runtimeClass(environment)
   runtime.createPlatform()

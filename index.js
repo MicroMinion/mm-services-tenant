@@ -3,7 +3,7 @@
 var assert = require('assert')
 var _ = require('lodash')
 var identityHelpers = require('mm-create-identity')
-var uuid = require('node-uuid')
+var uuid = require('uuid')
 var winstonWrapper = require('winston-meta-wrapper')
 
 var TenantService = function (options) {

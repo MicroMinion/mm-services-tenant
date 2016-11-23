@@ -12,7 +12,7 @@ works with [MicroMinion platform](https://github.com/MicroMinion/mm-platform)
 var MicroMinionPlatform = require('mm-platform')
 var TenantService = require('mm-services-tenant')
 var Runtime = require('mm-box')
-var uuid = require('node-uuid')
+var uuid = require('uuid')
 var MemStore = require('kad-memstore')
 
 var platform = new MicroMinionPlatform()
